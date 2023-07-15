@@ -1,0 +1,18 @@
+.kare {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  transition: 0.2s;
+}
+
+#kare1 {
+  background-color: red;
+  left: 25%;
+  top: 25%;
+}
+
+#kare2 {
+  background-color: blue;
+  left: 75%;
+  top: 75%;
+}

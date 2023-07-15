@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .daire {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      transition: 0.2s; /* transition süresini düşürdük */
+      border-radius: 50%;
+    }
+
+    #daire1 {
+      background-color: red;
+      left: 25%;
+      top: 25%;
+    }
+
+    #daire2 {
+      background-color: blue;
+      left: 75%;
+      top: 75%;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  <div id="daire1" class="daire"></div>
+  <div id="daire2" class="daire"></div>
+  
+  <script>
+    var daire1 = document.getElementById('daire1');
+    var daire2 = document.getElementById('daire2');
+
+    var canvas = document.getElementById('canvas');
+    var ctx = canvas.getContext('2d');
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    var lastRect1 = daire1.getBoundingClientRect();
+    var lastRect2 = daire2.getBoundingClientRect();
+
+    var drawing = false;
+
+    document.addEventListener('mousedown', function(e) {
+      drawing = true;
+      lastRect1 = daire1.getBoundingClientRect();
+      lastRect2 = daire2.getBoundingClientRect();
+    });
+
+    document.addEventListener('mouseup', function(e) {
+      drawing = false;
+    });
+
+    document.addEventListener('mouseleave', function(e) {
+      drawing = false;
+    });
+
+    document.onmousemove = function(e){
+      var x = e.pageX;
+      var y = e.pageY;
+
+      daire1.style.left = x + 'px';
+      daire1.style.top = y + 'px';
+
+      daire2.style.left = (window.innerWidth - x) + 'px';
+      daire2.style.top = (window.innerHeight - y) + 'px';
+    };
+
+    setInterval(function() {
+      if (!drawing) return;
+
+      var rect1 = daire1.getBoundingClientRect();
+      var rect2 = daire2.getBoundingClientRect();
+
+      ctx.beginPath();
+      ctx.moveTo(lastRect1.x, lastRect1.y);
+      ctx.lineTo(rect1.x, rect1.y);
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(lastRect2.x, lastRect2.y);
+      ctx.lineTo(rect2.x, rect2.y);
+      ctx.stroke();
+
+      lastRect1 = rect1;
+      lastRect2 = rect2;
+    }, 10); // Kontrol süresi. Daha düşük bir değer, daha akıcı bir çizgi anlamına gelir.
+  </script>
+</body>
+</html>
